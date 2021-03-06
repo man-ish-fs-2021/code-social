@@ -1,4 +1,5 @@
 <li>
+  <!-- creating a route to delete post using path params //later handled in the routes -->
     <% if(locals.user && locals.user.id==post.user.id){%>
     <a href="/posts/destroy/<%= post.id%>">X</a>
     <%}%>
@@ -7,6 +8,7 @@
     <br>
     <%= post.user.name %>
     </p>
+    <!-- posting comments -->
     <%if(locals.user){%>
     <div id="post-comments">
       <form action="/comments/create" method="POST">
@@ -21,6 +23,7 @@
       <ul id="post-commets-<%= post._id%>">
     <!-- this gies us the post id so that we can use it for further modifications -->
     <%for(comment of post.comments){%>
+      <!-- creating a partial -->
      <%-include("_comment");-%>
   <%}%>
       </ul>

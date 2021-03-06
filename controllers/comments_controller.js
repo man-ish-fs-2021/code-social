@@ -33,6 +33,7 @@ module.exports.destroy = function(req,res){
         if(comment.user==req.user.id){
             var postId = comment.post;
             comment.remove();
+            // deleting the comments ids from the posts comments array. i.e we are updating the comments array in the post collection 
             Post.findByIdAndUpdate(postId,{$pull:{comments: req.params.id}},function(err){
                 if(err){console.log("Error in pulling the comments"); return}
                 return res.redirect("back");
