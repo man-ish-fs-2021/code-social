@@ -8,9 +8,18 @@ const session = require('express-session');
 const passport = require('passport');
 const passportLocal = require('./config/passport-local-strategy');
 const MongoStore = require('connect-mongo').default;
+const sassMiddleware = require('node-sass-middleware');
 
 
 
+app.use(sassMiddleware({
+    src: "./assets/scss",
+    dest: "./assets/css",
+    debug: true,
+    outputStyle: 'extended',
+    prefix:"/css"
+
+}));
 
 // cookie parser
 app.use(express.urlencoded());
@@ -40,7 +49,7 @@ app.use(session({
         }
     }, function (err) {
         if (err) {
-            console.log(err || "Connect mongo is running");
+            console.log(err || "Connect mongo cookie session is running");
         }
     })
 }));
