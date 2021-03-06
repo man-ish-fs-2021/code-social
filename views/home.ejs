@@ -13,39 +13,7 @@
      <div id="post-list-container">
        <ul>
          <% for(post of posts){%>
-<li>
-  <p>
-    <%= post.content %>
-    <br>
-    <%= post.user.name %>
-  </p>
-  <%if(locals.user){%>
-  <div id="post-comments">
-    <form action="/comments/create" method="POST">
-      <input type="text" name="content">
-      <!-- to get the information abot the post and an indirect reference to the user -->
-      <input type="hidden" name="post" value="<%= post._id%>">
-      <input type="submit" value="ADD comment">
-    </form>
-  </div>
-  <%}%>
-  <div id="post-comments-list">
-    <ul id="post-commets-<%= post._id%>">
-  <!-- this gies us the post id so that we can use it for further modifications -->
-  <%for(comment of post.comments){%>
-<li>
-  <p>
-    <%= comment.content%>
-    <br>
-    <small>
-      <%= comment.user.name %>
-    </small>
-  </p>
-</li>
-<%}%>
-    </ul>
-  </div>
-</li>
+           <%-include("_post");-%>
 <%}%>
 </ul>
 </div>
