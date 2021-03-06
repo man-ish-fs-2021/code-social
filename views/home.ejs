@@ -1,23 +1,51 @@
-
-    <h1>Code-social/<%= title %> </h1>
-    <!-- form to get input from the post -->
-    <% if(locals.user){%>
-     <section id = "feed-posts">
-         <h4>Posts</h4>
-         <form action="/posts/create" method="POST" id="new-post-form">
-           <textarea name="content" cols="30" rows="3"></textarea>
-           <input type="submit" value="Post">
-         </form>
-     </section>
-     <%}%>
+<h1>Code-social/<%= title %> </h1>
+<!-- form to get input from the post -->
+<% if(locals.user){%>
+<section id="feed-posts">
+  <h4>Posts</h4>
+  <form action="/posts/create" method="POST" id="new-post-form">
+    <textarea name="content" cols="30" rows="3"></textarea>
+    <input type="submit" value="Post">
+  </form>
+</section>
+<%}%>
 
      <div id="post-list-container">
        <ul>
          <% for(post of posts){%>
-          <li>
-            <%= post.content %>
-            <%= post.user.name %>
-          </li>
-          <%}%>
-       </ul>
-     </div>
+<li>
+  <p>
+    <%= post.content %>
+    <br>
+    <%= post.user.name %>
+  </p>
+  <%if(locals.user){%>
+  <div id="post-comments">
+    <form action="/comments/create" method="POST">
+      <input type="text" name="content">
+      <!-- to get the information abot the post and an indirect reference to the user -->
+      <input type="hidden" name="post" value="<%= post._id%>">
+      <input type="submit" value="ADD comment">
+    </form>
+  </div>
+  <%}%>
+  <div id="post-comments-list">
+    <ul id="post-commets-<%= post._id%>">
+  <!-- this gies us the post id so that we can use it for further modifications -->
+  <%for(comment of post.comments){%>
+<li>
+  <p>
+    <%= comment.content%>
+    <br>
+    <small>
+      <%= comment.user.name %>
+    </small>
+  </p>
+</li>
+<%}%>
+    </ul>
+  </div>
+</li>
+<%}%>
+</ul>
+</div>
