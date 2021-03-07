@@ -1,13 +1,15 @@
 <header>
     <div id="nav-bar">
         <div id="left-end">
+            <a href="/">
             <h1>Code-Social</h1>
+        </a>
         </div>
         <div id="right-end">
         <% if(locals.user){ %>
 
         <div>
-            <a href="/users/profile">
+            <a href="/users/profile/<%=user.id%>">
                 <%= user.name%>
             </a>
         </div>

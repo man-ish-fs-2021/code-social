@@ -1,4 +1,5 @@
 const Post = require("../models/post");
+const User = require("../models/user");
 
 module.exports.home = function (req, res) {
 //       we populate the post with user, and we populate the post with comments and it's corresponding user
@@ -9,10 +10,14 @@ module.exports.home = function (req, res) {
               }
        }).exec(function(err,posts){
               if(err){console.log("error post homecontroller"); return}
-              return res.render("home",{
-                     title: "CODE-social",
-                     posts:posts
-              });
+              User.find({},function(err,users){
+                     if(err){console.log("Cannot find user- home controller"); return}
+                     return res.render("home",{
+                            title: "CODE-social",
+                            posts:posts,
+                            all_users:users
+                     });
+              })
        });
 
        
