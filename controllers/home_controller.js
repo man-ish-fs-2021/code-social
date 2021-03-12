@@ -6,7 +6,7 @@ module.exports.home = async function (req, res) {
        try{
               // We have converted the code to aync/awwait.
               // Here, we can assign the post to a variable wit hawait to make it much cleaner code.
-              let posts = await Post.find({}).populate("user").populate({
+              let posts = await Post.find({}).sort("-createdAt").populate("user").populate({
                      path: "comments",
                      populate: {
                             path: "user"

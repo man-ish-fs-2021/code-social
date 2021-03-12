@@ -1,7 +1,7 @@
-<li>
+<li id="post-<%= post._id %>">
   <!-- creating a route to delete post using path params //later handled in the routes -->
     <% if(locals.user && locals.user.id==post.user.id){%>
-    <a href="/posts/destroy/<%= post.id%>">X</a>
+    <a class="delete-post-button" href="/posts/destroy/<%= post.id%>">X</a>
     <%}%>
     <p>
       <%= post.content %>
