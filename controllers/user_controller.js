@@ -70,10 +70,14 @@ User.findOne({email: req.body.email}, function(err,user){
 
 // sign in and create a session for the user
 module.exports.createSession = function(req, res){
+
+    req.flash('success','Logged in succefully');
+
     return res.redirect("/");
 }
 
 module.exports.endSession = function(req,res){
      req.logout();
+     req.flash('success','logged out sucessfully');
      return res.redirect("/");
 }
