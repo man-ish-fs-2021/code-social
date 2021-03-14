@@ -12,9 +12,18 @@
                 success: function(data){
                     let newPost = newPostDom(data.data.post);
                     $("#posts-list-container>ul").prepend(newPost);
+                    new PostComments(data.data.post._id);
                     deletePost($(" .delete-post-button",newPost));
-                    console.log(deletePost($(" .delete-post-button",newPost)));
 
+                    new Noty({
+                      theme: 'relax',
+                      text: "Post created",
+                      type: 'success',
+                      layout: 'topRight',
+                      timeout: 1500
+                      
+                  }).show();    
+                  
                 },
                 error: function(error){
                     console.log(error.responseText);
@@ -51,14 +60,22 @@
 
     // method to delete posts
     let deletePost = function(deleteLink){
-        console.log(deleteLink);
-        $(".delete-post-button").click(function(e){
+        $(deleteLink).click(function(e){
             e.preventDefault();
             $.ajax({
                 type:'get',
                 url: $(deleteLink).prop('href'),
                 success: function(data){
                     $(`#post-${data.data.post_id} `).remove();
+
+                    new Noty({
+                      theme: 'relax',
+                      text: "Post Deleted",
+                      type: 'success',
+                      layout: 'topRight',
+                      timeout: 1500
+                      
+                  }).show();    
                 },error: function(error){
                     console.log(error.responseText);
                 }
@@ -66,7 +83,23 @@
             })
         })
     }
+    // method to create comments asynchronously
+    let covertPostsToAjax = function(){
+      $("#posts-list-container>ul>li").each(function(){
+        // iterating over the posts created before to make them dynamic i.e. Ajax
+        let self = this;
+        
+        let deleteButton = $(" .delete-post-button",$(self));
+        deletePost(deleteButton);
 
+
+        let postId = $(self).prop('id').split("-")[1];
+        new PostComments(postId);
+      });
+    }
+
+    
     createPost();
+    covertPostsToAjax();
     
 }
