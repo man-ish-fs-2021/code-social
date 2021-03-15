@@ -22,7 +22,7 @@ module.exports.create = async function (req, res) {
                   }, message: "comment created"
               });
           }
-          req.flash("success","Post is posted succesfully!");
+          req.flash("success","Comment published!");
           res.redirect("/"); 
   }
   }catch(err){
@@ -43,10 +43,10 @@ module.exports.destroy = async function(req,res){
                 return res.status(200).json({
                     data:{
                         comment_id : req.params.id
-                    }
+                    },message:"Comment deleted"
                 });
             }
-                req.flash("success","Post is posted succesfully!");
+                req.flash("success","Comment deleted!");
                 return res.redirect("back"); 
         }
         else{

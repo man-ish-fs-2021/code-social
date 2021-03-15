@@ -27,6 +27,8 @@ app.use(express.urlencoded());
 app.use(cookieParser());
 // setting up the static files ex: css, js
 app.use(express.static('./assets'));
+// amking the  multer files available to the /uploads
+app.use("/uploads",express.static(__dirname+"/uploads"));
 // using express ejs layouts
 app.use(expressLayouts);
 // extract style and scripts from sub pages into the layout
