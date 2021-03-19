@@ -1,11 +1,10 @@
 const nodemailer = require("../config/nodemailer");
 
-
-exports.newComment = function(comment){
-    let htmlTemplate = nodemailer.renderTemplate({comment:comment},"/comments/new_comment.ejs")
+exports.resetPasswordEmail = function(token){
+    let htmlTemplate = nodemailer.renderTemplate({token:token},"/resetPassword/reset_password.ejs");
     nodemailer.transporter.sendMail({
         from: "nodetest587@gmail.com",
-        to: comment.user.email,
+        to: token.user.email,
         subject: "Testing the nodemailer", 
         text:"Hello world?",
         html: htmlTemplate

@@ -4,6 +4,8 @@ const {
 const User = require("../models/user");
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
+const resetPassword = require("../models/reset_password");
 
 
 
@@ -120,3 +122,5 @@ module.exports.endSession = function (req, res) {
     req.flash('success', 'logged out sucessfully');
     return res.redirect("/");
 }
+
+
