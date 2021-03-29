@@ -13,7 +13,8 @@
                     let newPost = newPostDom(data.data.post);
                     $("#posts-list-container>ul").prepend(newPost);
                     new PostComments(data.data.post._id);
-                    deletePost($(" .delete-post-button",newPost));
+                    deletePost($(" .delete-post-button"),newPost);
+                    new ToggleLike($(" .like-button"),newPost);
 
                     new Noty({
                       theme: 'relax',
@@ -42,6 +43,11 @@
           <br>
             ${post.user.name}  
           </p>
+          <small>
+           <a calss="like-button" href="/likes/toggle_like/?id=${post._id}&type=Post" data-likes="0">
+           0 likes
+           </a>
+           </small>
          
           <div id="post-comments">
             <form action="/comments/create" method="POST">
@@ -87,13 +93,13 @@
     let covertPostsToAjax = function(){
       $("#posts-list-container>ul>li").each(function(){
         // iterating over the posts created before to make them dynamic i.e. Ajax
-        let self = this;
+        let self = $(this);
         
-        let deleteButton = $(" .delete-post-button",$(self));
+        let deleteButton = $(" .delete-post-button",self);
         deletePost(deleteButton);
 
 
-        let postId = $(self).prop('id').split("-")[1];
+        let postId = self.prop('id').split("-")[1];
         new PostComments(postId);
       });
     }

@@ -9,7 +9,7 @@ class PostComments{
 
         let self = this;
 
-        $(" .delete-comment-button",this.postContainer).each(function(){
+        $(".delete-comment-button",this.postContainer).each(function(){
             self.deleteComment($(this));
         })
        
@@ -24,12 +24,13 @@ class PostComments{
                 type: "post",
                 url: "/comments/create",
                 data: $(self).serialize(),
-                success : 
+                success: 
                     function(data){
                         let newComment = Pself.newCommentDom(data.data.comment);
                         $(`#post-comments-${postId}`).prepend(newComment);
-                        Pself.deleteComment(" .delete-comment-button",newComment);  
                         
+                        Pself.deleteComment($(".delete-comment-button"),newComment);  
+                        new ToggleLike($(' .like-button'), newComment);
                         new Noty({
                             theme: 'relax',
                             text: "Comment created",
@@ -56,6 +57,9 @@ class PostComments{
           <small>
             ${comment.user.name}
           </small>
+          <small>
+          <a calss="like-button" href="/likes/toggle_like/?id=${comment._id}&type=Comment" data-likes="0">0 Likes</a>
+        </small>
         </p>
       </li>`);
     }
