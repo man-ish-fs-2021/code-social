@@ -4,37 +4,45 @@ const path = require("path");
 const AVATAR_PATH = path.join("/uploads/users/avatars");
 
 const userSchema = new mongoose.Schema({
-    email:{
+    email: {
         type: String,
         required: true,
         unique: true
     },
-    name:{
+    name: {
         type: String,
         required: true
     },
-    password:{
+    password: {
         type: String,
-        required:true
+        required: true
     },
-    avatar:{
+    avatar: {
         type: String
-    }
-},{
-    timestamps:true
+    },
+    friends: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Friendship'
+        }
+    ]
+}, {
+    timestamps: true
 });
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, path.join(__dirname,"..",AVATAR_PATH));
+        cb(null, path.join(__dirname, "..", AVATAR_PATH));
     },
     filename: function (req, file, cb) {
-      cb(null, file.fieldname + '-' + Date.now())
+        cb(null, file.fieldname + '-' + Date.now())
     }
 });
-  userSchema.statics.uploadedAvatar = multer({ storage: storage }).single('avatar'); 
-  userSchema.statics.avatarPath = AVATAR_PATH;
+userSchema.statics.uploadedAvatar = multer({
+    storage: storage
+}).single('avatar');
+userSchema.statics.avatarPath = AVATAR_PATH;
 
-const User = mongoose.model("User",userSchema);
+const User = mongoose.model("User", userSchema);
 
-module.exports= User;
+module.exports = User;

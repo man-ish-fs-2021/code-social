@@ -12,7 +12,7 @@ router.use('/posts', require("./posts"));
 router.use('/comments', require("./comments"));
 router.use('/reset_password',require("./reset_password"));
 router.use('/likes', require("./likes"));
-
+router.use("/frienships", require("./friendships"));
 
 router.use("/api",require("./api"));
 

@@ -6,6 +6,7 @@ const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
 const resetPassword = require("../models/reset_password");
+const Friendship = require("../models/friendship");
 
 
 
@@ -15,10 +16,18 @@ module.exports.profile = function (req, res) {
             console.log("Error in finding the user - profile");
             return
         }
+        let Friend = Friendship.findById({$and:[{from_user:req.user._id},{to_user:req.params.id}]});
+        var isFriend;
+        if(Friend){
+          isFriend = true;
+        }else{
+          isFriend = false;
+        }
 
         return res.render('user_profile', {
             title: 'User Profile',
-            profile_user: user
+            profile_user: user,
+            isFriend:isFriend
         });
 
     });

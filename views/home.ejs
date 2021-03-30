@@ -1,6 +1,25 @@
 <link rel="stylesheet" href="/css/home.css">
 
+
 <div id="home-container">
+    <%if(locals.user){%>
+        <section id="friends-container">
+            <h4>
+                Friends
+            </h4>
+           <% if(user_friends.length==0){%>
+                <p>
+                    No friends yet
+                </p>
+            <%}else{%>
+                <% for(let friends of user_friends){ %>
+                    <p>
+                        <a href="/users/profile/<%=friends.friend_id%>"><%= friends.friend_name %></a>
+                    </p>
+                <%}%>
+            <%}%>
+        </section>
+    <%}%>
     <section id="feed-posts">
             <h4>Posts</h4>
             <% if(locals.user){ %>
@@ -22,8 +41,8 @@
         </section>
         
         
-        <section id="user-friends">
-            <h4>Friends</h4>
+        <section id="users-container">
+            <h4>Users</h4>
             <% for(u of all_users){%>
                 <p>
                     <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
@@ -32,8 +51,8 @@
         </section>
 </div>
 
-<!-- <script src="/js/home_post_comments.js" ></script> -->
-<!-- <script src="/js/home_posts.js"></script> -->
+<script src="/js/home_post_comments.js" ></script>
+<script src="/js/home_posts.js"></script>
 
 <script src="/js/toggle_like.js"></script>
 

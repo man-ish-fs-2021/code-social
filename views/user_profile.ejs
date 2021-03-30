@@ -1,14 +1,23 @@
-<link rel="stylesheet" href="/css/userProfile.css"> 
-<img src="<%= user.avatar %>" alt="User avatar" width="100">
+<link rel="stylesheet" href="/css/userProfile.css">
+<img src="<%= profile_user.avatar %>" alt="User avatar" width="100">
 
 <%if(profile_user.id==user.id){%>
-    <form action="/users/update/<%=profile_user.id%>" method="POST" enctype="multipart/form-data">
-        <input type="text" name="name" placeholder="Your name" value="<%=profile_user.name%>" required>
-        <input type="email" name="email" placeholder="Your email" value="<%=profile_user.email%>" required>
-        <input type="file" name="avatar">
-        <input type="submit" value="update">
-    </form>
+<form action="/users/update/<%=profile_user.id%>" method="POST" enctype="multipart/form-data">
+    <input type="text" name="name" placeholder="Your name" value="<%=profile_user.name%>" required>
+    <input type="email" name="email" placeholder="Your email" value="<%=profile_user.email%>" required>
+    <input type="file" name="avatar">
+    <input type="submit" value="update">
+</form>
+<%}else{%>
+<p><%= profile_user.name%></p>
+<p><%= profile_user.email%></p>
+<form id="friendship-form" action="/frienships/toggleFriendship/<%=profile_user.id%>" method="POST">
+    <%if(isFriend){%>
+    <input class="friends-button" type="submit" value="Remove-friend">
     <%}else{%>
-    <p><%= profile_user.name%></p>
-    <p><%= profile_user.email%></p>
+    <input class="friends-button" type="submit" value="add-friend">
     <%}%>
+    </form>
+    <%}%>
+
+    <script src="/js/profile_friendship.js"></script>
