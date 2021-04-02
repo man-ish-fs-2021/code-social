@@ -5,14 +5,28 @@ const port = 8000;
 const expressLayouts = require('express-ejs-layouts');
 const db = require('./config/mongoose');
 const session = require('express-session');
+
+
 const passport = require('passport');
 const passportJWT = require("./config/passport-jwt-strategy");
 const passportLocal = require('./config/passport-local-strategy');
 const passportGoogle = require("./config/passport-google-strategy");
+
+
 const MongoStore = require('connect-mongo').default;
 const sassMiddleware = require('node-sass-middleware');
+
+
 const flash = require("connect-flash");
 const customMware = require("./config/middleware");
+
+// setting up a server for the chatting engine
+const chatServer = require("http").Server(app);
+const chatSocket = require("./config/chat_socket").chatSocket(chatServer);
+chatServer.listen(5000);
+console.log("chat server is listening to port 5000");    
+
+
 
 
 app.use(sassMiddleware({

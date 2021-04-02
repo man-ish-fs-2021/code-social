@@ -17,7 +17,7 @@ module.exports.home = async function (req, res) {
                      }
               }).populate('likes');
               let friends = new Array();
-              let users = await User.find({}).populate("friends");
+              let users = await User.find({});
               if(req.user){
                      let all_friendships = await Friendship.find({$or:[{from_user:req.user._id},{to_user: req.user._id}] }).populate("from_user").populate("to_user");
                      // console.log(all_friendships);
@@ -37,7 +37,7 @@ module.exports.home = async function (req, res) {
                      }
 
               }
-              console.log(friends);
+              // console.log(friends);
 
               return res.render("home", {
                      title: "CODE-social",
