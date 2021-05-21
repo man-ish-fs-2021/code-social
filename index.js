@@ -12,6 +12,9 @@ const passportJWT = require("./config/passport-jwt-strategy");
 const passportLocal = require('./config/passport-local-strategy');
 const passportGoogle = require("./config/passport-google-strategy");
 
+const env = require("./config/environment");
+const path = require("path");
+const logger = require('morgan');
 
 const MongoStore = require('connect-mongo').default;
 const sassMiddleware = require('node-sass-middleware');
@@ -21,7 +24,7 @@ const flash = require("connect-flash");
 const customMware = require("./config/middleware");
 
 // setting up a server for the chatting engine
-const chatServer = require("http").Server(app);
+const chatServer = require("http").Server(app); 
 const chatSocket = require("./config/chat_socket").chatSocket(chatServer);
 chatServer.listen(5000);
 console.log("chat server is listening to port 5000");    
@@ -29,20 +32,22 @@ console.log("chat server is listening to port 5000");
 
 
 
-app.use(sassMiddleware({
-    src: "./assets/scss",
-    dest: "./assets/css",
-    debug: true,
-    outputStyle: 'extended',
-    prefix:"/css"
-
-}));
-
+if(env.name == 'development'){
+    app.use(sassMiddleware({
+        src: path.join(__dirname,env.asset_path,'scss'),
+        dest: path.join(__dirname,env.asset_path,'css'),
+        debug: true,
+        outputStyle: 'extended',
+        prefix:"/css"
+    
+    }));
+    
+}
 // cookie parser
 app.use(express.urlencoded());
 app.use(cookieParser());
 // setting up the static files ex: css, js
-app.use(express.static('./assets'));
+app.use(express.static(env.asset_path));
 // amking the  multer files available to the /uploads
 app.use("/uploads",express.static(__dirname+"/uploads"));
 // using express ejs layouts
@@ -53,7 +58,7 @@ app.set('layout extractScripts', true);
 // configuring the session
 app.use(session({
     name: "code-social",
-    secret: 'randomword',
+    secret: env.session_cookie_key,
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -83,6 +88,7 @@ app.use(customMware.setFlash);
 // use express router
 app.use('/', require('./routes'));
 
+app.use(logger(env.morgan.mode,env.morgan.options));
 // set up the view engine
 app.set('view engine', 'ejs');
 app.set('views', './views');

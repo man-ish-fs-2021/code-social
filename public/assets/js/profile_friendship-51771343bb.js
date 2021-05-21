@@ -1,0 +1,1 @@
+(function(){$("#friendship-form").submit((function(t){t.preventDefault(),$.ajax({type:"post",url:$(this).attr("action"),success:function(t){1==t.data.isFriends&&$(".friends-button").attr("value","Remove-friend"),0==t.data.isFriends&&$(".friends-button").attr("value","Add-friend")},error:function(t){console.log(t.responseText)}})}))})();
