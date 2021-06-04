@@ -1,11 +1,20 @@
+const evn = require("./environment");
+const path = require("path");
+const fs = require("fs");
 
-// const evn = require("./environment");
-// const path = require("path");
+module.exports = (app) => {
+  app.locals.assetPath = function (filepath) {
+    // console.log(app.locals);
+    if (evn.name === "development") {
+      return "/" + filepath;
+    }
 
-// app.locals.assetPath = function(filepath){
-//     if(evn.name = 'development'){
-//         return '/' + filepath;
-//     }
-
-//     return '/' + JSON.parse(path.join(__dirname,'../public/assets/rev-manifest.json'))
-// }
+    // console.log(filepath);
+    return (
+      "/" +
+      JSON.parse(fs.readFileSync(path.join(__dirname, "../rev-manifest.json")))[
+        filepath
+      ]
+    );
+  };
+};
