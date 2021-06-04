@@ -42,7 +42,7 @@ if (env.name == "development") {
   );
 }
 // cookie parser
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 // setting up the static files ex: css, js
 app.use(express.static(env.asset_path));
